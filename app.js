@@ -17,6 +17,9 @@ class FreeCityApp {
         this.fps = 0;
         this.lastTime = performance.now();
         this.frameCount = 0;
+        this.zoom = 1;
+        this.offsetX = 0;
+        this.offsetY = 0;
 
         this.setupEventListeners();
         this.createNodes();
@@ -112,25 +115,28 @@ class FreeCityApp {
         }
     }
 
-    createRibbon(node, index) {
+    createRibbon(node, index, depth = 0, yOffset = 0) {
         const colors = ['#ff006e', '#ffd60a', '#00d9ff', '#ff5733', '#a855f7'];
 
         // Arborescence: alterne entre ligne droite et courbe
-        const verticalOffset = (index - this.ribbonCount / 2) * 40; // Étalement vertical
+        const verticalOffset = yOffset || (index - this.ribbonCount / 2) * 40;
 
         this.ribbons.push({
             startX: node.x,
             startY: node.y,
-            targetY: node.y + verticalOffset, // Position verticale cible
-            angle: 0, // Toujours vers la droite
+            currentY: node.y,
+            targetY: node.y + verticalOffset,
+            angle: 0,
             speed: 3,
-            color: colors[index % colors.length],
+            color: colors[depth % colors.length],
             points: [{x: node.x, y: node.y}],
-            maxPoints: 100,
-            width: 3,
-            life: 1,
-            phase: 'curve', // 'curve' puis 'straight'
-            distance: 0
+            width: 3 - (depth * 0.5), // Plus fin à chaque subdivision
+            life: 999, // Ne disparaît jamais
+            phase: 'curve',
+            distance: 0,
+            depth: depth,
+            branchTimer: 100 + Math.random() * 100, // Quand se subdiviser
+            hasBranched: false
         });
     }
 
@@ -138,6 +144,9 @@ class FreeCityApp {
         this.isEvolved = false;
         this.ribbons = [];
         this.lightPosition = 0;
+        this.zoom = 1;
+        this.offsetX = 0;
+        this.offsetY = 0;
         this.createNodes();
         document.getElementById('state').textContent = 'Boucle normale';
     }
@@ -200,11 +209,10 @@ class FreeCityApp {
     }
 
     drawRibbons() {
-        this.ribbons = this.ribbons.filter(ribbon => ribbon.life > 0);
-
         this.ribbons.forEach(ribbon => {
             const lastPoint = ribbon.points[ribbon.points.length - 1];
             ribbon.distance += ribbon.speed;
+            ribbon.branchTimer--;
 
             let newX, newY;
 
@@ -215,6 +223,7 @@ class FreeCityApp {
 
                 newX = lastPoint.x + ribbon.speed;
                 newY = curveY;
+                ribbon.currentY = curveY;
 
                 if (progress >= 1) {
                     ribbon.phase = 'straight';
@@ -224,21 +233,32 @@ class FreeCityApp {
                 // Phase droite: ligne droite horizontale
                 newX = lastPoint.x + ribbon.speed;
                 newY = ribbon.targetY;
+                ribbon.currentY = ribbon.targetY;
+
+                // Créer des branches (subdivisions)
+                if (ribbon.branchTimer <= 0 && !ribbon.hasBranched && ribbon.depth < 3) {
+                    ribbon.hasBranched = true;
+
+                    // Créer 2-3 nouvelles branches
+                    const numBranches = 2 + Math.floor(Math.random() * 2);
+                    for (let i = 0; i < numBranches; i++) {
+                        const branchOffset = (i - numBranches / 2) * 60;
+                        const branchNode = {
+                            x: lastPoint.x,
+                            y: ribbon.currentY
+                        };
+                        this.createRibbon(branchNode, i, ribbon.depth + 1, branchOffset);
+                    }
+                }
             }
 
             ribbon.points.push({x: newX, y: newY});
 
-            if (ribbon.points.length > ribbon.maxPoints) {
-                ribbon.points.shift();
-            }
-
-            ribbon.life -= 0.003;
-
-            // Draw ribbon
+            // Draw ribbon (tous les points, pas de limite)
             if (ribbon.points.length > 1) {
                 this.ctx.strokeStyle = ribbon.color;
-                this.ctx.lineWidth = ribbon.width;
-                this.ctx.globalAlpha = ribbon.life;
+                this.ctx.lineWidth = Math.max(ribbon.width, 1);
+                this.ctx.globalAlpha = 0.8;
                 this.ctx.lineCap = 'round';
                 this.ctx.lineJoin = 'round';
 
@@ -277,9 +297,33 @@ class FreeCityApp {
     animate() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        // Dezoom progressif quand l'arborescence grandit
+        if (this.isEvolved && this.ribbons.length > 0) {
+            const maxX = Math.max(...this.ribbons.flatMap(r => r.points.map(p => p.x)));
+            const maxY = Math.max(...this.ribbons.flatMap(r => r.points.map(p => p.y)));
+            const minY = Math.min(...this.ribbons.flatMap(r => r.points.map(p => p.y)));
+
+            const targetZoom = Math.min(
+                this.canvas.width / (maxX - this.centerX + 200),
+                this.canvas.height / (maxY - minY + 200),
+                1
+            );
+            this.zoom += (targetZoom - this.zoom) * 0.02;
+
+            this.offsetX += ((this.canvas.width / 2 - maxX * this.zoom) - this.offsetX) * 0.02;
+            this.offsetY += ((this.canvas.height / 2 - (maxY + minY) / 2 * this.zoom) - this.offsetY) * 0.02;
+        }
+
+        // Appliquer la transformation
+        this.ctx.save();
+        this.ctx.translate(this.offsetX, this.offsetY);
+        this.ctx.scale(this.zoom, this.zoom);
+
         this.drawNodes();
         this.drawLight();
         this.drawRibbons();
+
+        this.ctx.restore();
 
         // Update light position
         if (!this.isEvolved) {
