@@ -100,14 +100,16 @@ class FreeCityApp {
         this.isEvolved = true;
         document.getElementById('state').textContent = 'ÉVOLUTION !';
 
-        // Create ribbons from each node
-        this.nodes.forEach((node, nodeIndex) => {
-            for (let i = 0; i < this.ribbonCount; i++) {
-                setTimeout(() => {
-                    this.createRibbon(node, i);
-                }, nodeIndex * 100 + i * 50);
-            }
+        // Create ribbons only from the rightmost node
+        const rightmostNode = this.nodes.reduce((prev, current) => {
+            return (current.x > prev.x) ? current : prev;
         });
+
+        for (let i = 0; i < this.ribbonCount; i++) {
+            setTimeout(() => {
+                this.createRibbon(rightmostNode, i);
+            }, i * 50);
+        }
     }
 
     createRibbon(node, index) {
