@@ -107,7 +107,7 @@ class FreeCityApp {
             currentY: node.y,
             targetY: node.y + verticalOffset,
             angle: 0,
-            speed: 3, // Plus rapide et impressionnant
+            speed: 3, // Vitesse de croissance
             color: colors[depth % colors.length],
             points: [{x: node.x, y: node.y}],
             width: 7 - (depth * 0.5), // Encore plus gros
@@ -115,7 +115,7 @@ class FreeCityApp {
             phase: 'curve',
             distance: 0,
             depth: depth,
-            branchTimer: 80 + Math.random() * 100, // Beaucoup plus rapide
+            branchTimer: 200 + Math.random() * 200, // Beaucoup plus lent entre générations
             hasBranched: false
         });
     }
@@ -286,7 +286,7 @@ class FreeCityApp {
     animate() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Suivi de caméra amélioré
+        // Suivi de caméra spectaculaire avec effet cinématique
         if (this.isEvolved && this.ribbons.length > 0) {
             const allPoints = this.ribbons.flatMap(r => r.points);
             const maxX = Math.max(...allPoints.map(p => p.x));
@@ -294,8 +294,8 @@ class FreeCityApp {
             const maxY = Math.max(...allPoints.map(p => p.y));
             const minY = Math.min(...allPoints.map(p => p.y));
 
-            const width = maxX - minX + 400;
-            const height = maxY - minY + 400;
+            const width = maxX - minX + 600; // Plus de marge pour effet dramatique
+            const height = maxY - minY + 600;
             const centerX = (maxX + minX) / 2;
             const centerY = (maxY + minY) / 2;
 
@@ -304,10 +304,13 @@ class FreeCityApp {
                 this.canvas.height / height,
                 1
             );
-            this.zoom += (targetZoom - this.zoom) * 0.05;
 
-            this.offsetX += ((this.canvas.width / 2 - centerX * this.zoom) - this.offsetX) * 0.05;
-            this.offsetY += ((this.canvas.height / 2 - centerY * this.zoom) - this.offsetY) * 0.05;
+            // Mouvement de caméra lent et fluide (plus impressionnant)
+            const smoothness = 0.02; // Plus lent = plus spectaculaire
+            this.zoom += (targetZoom - this.zoom) * smoothness;
+
+            this.offsetX += ((this.canvas.width / 2 - centerX * this.zoom) - this.offsetX) * smoothness;
+            this.offsetY += ((this.canvas.height / 2 - centerY * this.zoom) - this.offsetY) * smoothness;
         }
 
         // Appliquer la transformation
