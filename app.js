@@ -70,16 +70,16 @@ class FreeCityApp {
     }
 
     getNodeLabel(index) {
-        // Routine cohérente d'un PNJ de banque (comme Free Guy)
+        // Routine cohérente d'un PNJ du Far West (style Red Dead Redemption)
         const labels = [
             'DORMIR',      // 1. Nuit - sommeil
-            'RÉVEIL',      // 2. Matin - se réveille
-            'CAFÉ',        // 3. Matin - café + petit-déj
-            'BANQUE',      // 4. Travail - employé de banque
-            'DÉJEUNER',    // 5. Midi - pause repas
-            'BANQUE',      // 6. Après-midi - retour travail
-            'RENTRER',     // 7. Soir - rentrer chez soi
-            'DÎNER'        // 8. Soir - dîner et dodo
+            'RÉVEIL',      // 2. Aube - lever du jour
+            'ÉCURIE',      // 3. Matin - s'occuper des chevaux
+            'SALOON',      // 4. Matinée - boire un coup
+            'RANCH',       // 5. Journée - travailler au ranch
+            'CHASSE',      // 6. Après-midi - chasser
+            'SALOON',      // 7. Soir - jouer aux cartes
+            'RENTRER'      // 8. Nuit - rentrer dormir
         ];
         return labels[index % labels.length];
     }
