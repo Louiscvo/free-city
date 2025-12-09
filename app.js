@@ -40,9 +40,12 @@ class FreeCityApp {
         document.addEventListener('keydown', (e) => {
             if (e.key === ' ') {
                 e.preventDefault();
+                console.log('SPACE pressed, isEvolved:', this.isEvolved);
                 if (this.isEvolved) {
+                    console.log('Calling reset()');
                     this.reset();
                 } else {
+                    console.log('Calling evolve()');
                     this.evolve();
                 }
             }
@@ -118,6 +121,7 @@ class FreeCityApp {
     }
 
     reset() {
+        console.log('Reset called - clearing ribbons:', this.ribbons.length);
         this.isEvolved = false;
         this.ribbons = [];
         this.lightPosition = 0;
@@ -126,6 +130,7 @@ class FreeCityApp {
         this.offsetY = 0;
         this.createNodes();
         document.getElementById('state').textContent = 'Boucle normale';
+        console.log('Reset complete - isEvolved:', this.isEvolved);
     }
 
     drawNodes() {
