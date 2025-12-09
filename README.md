@@ -30,10 +30,10 @@ Reproduction fidèle de l'effet visuel iconique montrant l'évolution d'une IA a
 
 ```bash
 # 1. Cloner le repo
-git clone https://github.com/louischavouet/FreeCityAI.git
+git clone https://github.com/louischavouet/free-city.git
 
 # 2. Dans Unity
-# Copier Scripts/ vers Assets/FreeCityAI/Scripts/
+# Copier Scripts/ vers Assets/free-city/Scripts/
 
 # 3. Menu Unity
 GameObject → Free City AI → Setup Complete Scene
@@ -52,7 +52,7 @@ GameObject → Free City AI → Setup Complete Scene
 | [EXAMPLES.md](EXAMPLES.md) | 15+ exemples pratiques |
 | [STRUCTURE.txt](STRUCTURE.txt) | Architecture technique |
 
-📚 [Documentation complète →](https://louischavouet.github.io/FreeCityAI/)
+📚 [Documentation complète →](https://louischavouet.github.io/free-city/)
 
 ## 🎬 Résultat Visuel
 
@@ -132,14 +132,14 @@ Voir [EXAMPLES.md](EXAMPLES.md) pour plus d'exemples !
 ## 🏗️ Architecture
 
 ```
-FreeCityAI/
+free-city/
 ├── Scripts/
 │   ├── BehaviorNode.cs           # Nœud individuel
 │   ├── BehaviorTreeCircuit.cs    # Circuit complet
 │   ├── CircuitLight.cs           # Lumière animée
 │   ├── RibbonExplosion.cs        # Système d'explosion
 │   ├── AIEvolutionSequence.cs    # Contrôleur principal
-│   └── FreeCityAISetup.cs        # Setup automatique
+│   └── free-citySetup.cs        # Setup automatique
 └── Documentation/
     ├── START_HERE.md
     ├── QUICKSTART.md
@@ -176,18 +176,18 @@ Les contributions sont les bienvenues !
 
 ## 🔗 Liens
 
-- 🌐 [Site Web](https://louischavouet.github.io/FreeCityAI/)
-- 📚 [Documentation](https://louischavouet.github.io/FreeCityAI/)
-- 🐛 [Issues](https://github.com/louischavouet/FreeCityAI/issues)
-- 💬 [Discussions](https://github.com/louischavouet/FreeCityAI/discussions)
+- 🌐 [Site Web](https://louischavouet.github.io/free-city/)
+- 📚 [Documentation](https://louischavouet.github.io/free-city/)
+- 🐛 [Issues](https://github.com/louischavouet/free-city/issues)
+- 💬 [Discussions](https://github.com/louischavouet/free-city/discussions)
 
 ## 📞 Support
 
 Besoin d'aide ?
 1. Consultez [START_HERE.md](START_HERE.md)
 2. Lisez [QUICKSTART.md](QUICKSTART.md)
-3. Voir les [Issues](https://github.com/louischavouet/FreeCityAI/issues)
-4. Rejoignez les [Discussions](https://github.com/louischavouet/FreeCityAI/discussions)
+3. Voir les [Issues](https://github.com/louischavouet/free-city/issues)
+4. Rejoignez les [Discussions](https://github.com/louischavouet/free-city/discussions)
 
 ## 📈 Roadmap
 
@@ -212,6 +212,6 @@ Voir [VERSION.md](VERSION.md) pour détails complets.
 
 Créé avec ❤️ pour la communauté Unity
 
-[Documentation](https://louischavouet.github.io/FreeCityAI/) • [Télécharger](https://github.com/louischavouet/FreeCityAI/releases) • [Exemples](EXAMPLES.md)
+[Documentation](https://louischavouet.github.io/free-city/) • [Télécharger](https://github.com/louischavouet/free-city/releases) • [Exemples](EXAMPLES.md)
 
 </div>
