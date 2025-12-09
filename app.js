@@ -70,8 +70,8 @@ class FreeCityApp {
     }
 
     getNodeLabel(index) {
-        const labels = ['SLEEP', 'WAKE UP', 'WORK', 'LUNCH', 'MEET', 'COFFEE', 'HOME', 'RELAX',
-                       'HOBBY', 'DINNER', 'WALK', 'READ', 'PLAY', 'STUDY', 'TRAIN', 'REST'];
+        const labels = ['DORMIR', 'RÉVEIL', 'TRAVAIL', 'DÉJEUNER', 'RENDEZ-VOUS', 'CAFÉ', 'MAISON', 'DÉTENTE',
+                       'LOISIR', 'DÎNER', 'MARCHE', 'LECTURE', 'JOUER', 'ÉTUDE', 'SPORT', 'REPOS'];
         return labels[index % labels.length];
     }
 
