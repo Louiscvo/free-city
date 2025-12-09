@@ -40,7 +40,11 @@ class FreeCityApp {
         document.addEventListener('keydown', (e) => {
             if (e.key === ' ') {
                 e.preventDefault();
-                this.evolve();
+                if (this.isEvolved) {
+                    this.reset();
+                } else {
+                    this.evolve();
+                }
             }
         });
     }
@@ -101,15 +105,15 @@ class FreeCityApp {
             currentY: node.y,
             targetY: node.y + verticalOffset,
             angle: 0,
-            speed: 2, // Un peu plus rapide
+            speed: 3, // Plus rapide et impressionnant
             color: colors[depth % colors.length],
             points: [{x: node.x, y: node.y}],
-            width: 5 - (depth * 0.4), // Plus gros
+            width: 7 - (depth * 0.5), // Encore plus gros
             life: 999, // Ne disparaît jamais
             phase: 'curve',
             distance: 0,
             depth: depth,
-            branchTimer: 120 + Math.random() * 120, // Un peu plus rapide
+            branchTimer: 80 + Math.random() * 100, // Beaucoup plus rapide
             hasBranched: false
         });
     }
@@ -230,12 +234,12 @@ class FreeCityApp {
 
             // Draw ribbon avec effet de glow
             if (ribbon.points.length > 1) {
-                // Glow externe plus fort
-                this.ctx.shadowBlur = 20;
+                // Glow externe encore plus fort pour effet spectaculaire
+                this.ctx.shadowBlur = 25;
                 this.ctx.shadowColor = ribbon.color;
 
                 this.ctx.strokeStyle = ribbon.color;
-                this.ctx.lineWidth = Math.max(ribbon.width, 2);
+                this.ctx.lineWidth = Math.max(ribbon.width, 3);
                 this.ctx.globalAlpha = 0.9;
                 this.ctx.lineCap = 'round';
                 this.ctx.lineJoin = 'round';
