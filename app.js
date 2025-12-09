@@ -119,7 +119,7 @@ class FreeCityApp {
         const colors = ['#ff006e', '#ffd60a', '#00d9ff', '#ff5733', '#a855f7'];
 
         // Arborescence: alterne entre ligne droite et courbe
-        const verticalOffset = yOffset || (index - this.ribbonCount / 2) * 40;
+        const verticalOffset = yOffset || (index - this.ribbonCount / 2) * 50;
 
         this.ribbons.push({
             startX: node.x,
@@ -127,15 +127,15 @@ class FreeCityApp {
             currentY: node.y,
             targetY: node.y + verticalOffset,
             angle: 0,
-            speed: 3,
+            speed: 1.2, // Plus lent pour effet majestueux
             color: colors[depth % colors.length],
             points: [{x: node.x, y: node.y}],
-            width: 3 - (depth * 0.5), // Plus fin à chaque subdivision
+            width: 4 - (depth * 0.3), // Lignes plus épaisses
             life: 999, // Ne disparaît jamais
             phase: 'curve',
             distance: 0,
             depth: depth,
-            branchTimer: 100 + Math.random() * 100, // Quand se subdiviser
+            branchTimer: 150 + Math.random() * 150, // Plus long avant subdivision
             hasBranched: false
         });
     }
@@ -217,8 +217,8 @@ class FreeCityApp {
             let newX, newY;
 
             if (ribbon.phase === 'curve') {
-                // Phase courbe: aller vers targetY avec une courbe
-                const progress = Math.min(ribbon.distance / 100, 1);
+                // Phase courbe: aller vers targetY avec une courbe douce et lente
+                const progress = Math.min(ribbon.distance / 180, 1);
                 const curveY = ribbon.startY + (ribbon.targetY - ribbon.startY) * this.easeInOutCubic(progress);
 
                 newX = lastPoint.x + ribbon.speed;
@@ -236,13 +236,13 @@ class FreeCityApp {
                 ribbon.currentY = ribbon.targetY;
 
                 // Créer des branches (subdivisions)
-                if (ribbon.branchTimer <= 0 && !ribbon.hasBranched && ribbon.depth < 3) {
+                if (ribbon.branchTimer <= 0 && !ribbon.hasBranched && ribbon.depth < 4) {
                     ribbon.hasBranched = true;
 
-                    // Créer 2-3 nouvelles branches
-                    const numBranches = 2 + Math.floor(Math.random() * 2);
+                    // Créer 2-4 nouvelles branches pour plus de complexité
+                    const numBranches = 2 + Math.floor(Math.random() * 3);
                     for (let i = 0; i < numBranches; i++) {
-                        const branchOffset = (i - numBranches / 2) * 60;
+                        const branchOffset = (i - numBranches / 2) * 70;
                         const branchNode = {
                             x: lastPoint.x,
                             y: ribbon.currentY
@@ -254,11 +254,15 @@ class FreeCityApp {
 
             ribbon.points.push({x: newX, y: newY});
 
-            // Draw ribbon (tous les points, pas de limite)
+            // Draw ribbon avec effet de glow
             if (ribbon.points.length > 1) {
+                // Glow externe
+                this.ctx.shadowBlur = 15;
+                this.ctx.shadowColor = ribbon.color;
+
                 this.ctx.strokeStyle = ribbon.color;
-                this.ctx.lineWidth = Math.max(ribbon.width, 1);
-                this.ctx.globalAlpha = 0.8;
+                this.ctx.lineWidth = Math.max(ribbon.width, 1.5);
+                this.ctx.globalAlpha = 0.9;
                 this.ctx.lineCap = 'round';
                 this.ctx.lineJoin = 'round';
 
@@ -270,6 +274,9 @@ class FreeCityApp {
                 }
 
                 this.ctx.stroke();
+
+                // Reset shadow
+                this.ctx.shadowBlur = 0;
                 this.ctx.globalAlpha = 1;
             }
         });
@@ -308,10 +315,10 @@ class FreeCityApp {
                 this.canvas.height / (maxY - minY + 200),
                 1
             );
-            this.zoom += (targetZoom - this.zoom) * 0.02;
+            this.zoom += (targetZoom - this.zoom) * 0.01; // Dezoom encore plus lent
 
-            this.offsetX += ((this.canvas.width / 2 - maxX * this.zoom) - this.offsetX) * 0.02;
-            this.offsetY += ((this.canvas.height / 2 - (maxY + minY) / 2 * this.zoom) - this.offsetY) * 0.02;
+            this.offsetX += ((this.canvas.width / 2 - maxX * this.zoom) - this.offsetX) * 0.01;
+            this.offsetY += ((this.canvas.height / 2 - (maxY + minY) / 2 * this.zoom) - this.offsetY) * 0.01;
         }
 
         // Appliquer la transformation
