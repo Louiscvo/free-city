@@ -101,6 +101,16 @@ class FreeCityApp {
         // Arborescence: alterne entre ligne droite et courbe
         const verticalOffset = yOffset || (index - this.ribbonCount / 2) * 60;
 
+        // Timer différent selon la profondeur
+        let branchTimer;
+        if (depth === 0) {
+            // Génération 1 → 2 : RAPIDE
+            branchTimer = 80 + Math.random() * 80;
+        } else {
+            // Génération 2 → 3 : Plus lent
+            branchTimer = 200 + Math.random() * 200;
+        }
+
         this.ribbons.push({
             startX: node.x,
             startY: node.y,
@@ -115,7 +125,7 @@ class FreeCityApp {
             phase: 'curve',
             distance: 0,
             depth: depth,
-            branchTimer: 200 + Math.random() * 200,
+            branchTimer: branchTimer,
             hasBranched: false
         });
     }
