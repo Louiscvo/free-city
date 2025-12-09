@@ -8,8 +8,8 @@ class FreeCityApp {
         this.nodes = [];
         this.nodeCount = 8;
         this.lightPosition = 0;
-        this.lightSpeed = 1;
-        this.ribbonCount = 5;
+        this.lightSpeed = 3;
+        this.ribbonCount = 10;
         this.lightColor = '#00ffff';
         this.isEvolved = false;
         this.ribbons = [];
@@ -36,37 +36,11 @@ class FreeCityApp {
     setupEventListeners() {
         window.addEventListener('resize', () => this.resizeCanvas());
 
-        document.getElementById('evolve-btn').addEventListener('click', () => this.evolve());
-        document.getElementById('reset-btn').addEventListener('click', () => this.reset());
-
-        document.getElementById('node-slider').addEventListener('input', (e) => {
-            this.nodeCount = parseInt(e.target.value);
-            document.getElementById('node-count').textContent = this.nodeCount;
-            if (!this.isEvolved) this.createNodes();
-        });
-
-        document.getElementById('speed-slider').addEventListener('input', (e) => {
-            this.lightSpeed = parseFloat(e.target.value);
-            document.getElementById('speed-value').textContent = this.lightSpeed.toFixed(1);
-        });
-
-        document.getElementById('ribbon-slider').addEventListener('input', (e) => {
-            this.ribbonCount = parseInt(e.target.value);
-            document.getElementById('ribbon-count').textContent = this.ribbonCount;
-        });
-
-        document.getElementById('light-color').addEventListener('input', (e) => {
-            this.lightColor = e.target.value;
-        });
-
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-            if (e.key === ' ' || e.key === 'e' || e.key === 'E') {
+            if (e.key === ' ') {
                 e.preventDefault();
                 this.evolve();
-            }
-            if (e.key === 'r' || e.key === 'R') {
-                this.reset();
             }
         });
     }
@@ -127,15 +101,15 @@ class FreeCityApp {
             currentY: node.y,
             targetY: node.y + verticalOffset,
             angle: 0,
-            speed: 1.2, // Plus lent pour effet majestueux
+            speed: 2, // Un peu plus rapide
             color: colors[depth % colors.length],
             points: [{x: node.x, y: node.y}],
-            width: 4 - (depth * 0.3), // Lignes plus épaisses
+            width: 5 - (depth * 0.4), // Plus gros
             life: 999, // Ne disparaît jamais
             phase: 'curve',
             distance: 0,
             depth: depth,
-            branchTimer: 150 + Math.random() * 150, // Plus long avant subdivision
+            branchTimer: 120 + Math.random() * 120, // Un peu plus rapide
             hasBranched: false
         });
     }
@@ -256,12 +230,12 @@ class FreeCityApp {
 
             // Draw ribbon avec effet de glow
             if (ribbon.points.length > 1) {
-                // Glow externe
-                this.ctx.shadowBlur = 15;
+                // Glow externe plus fort
+                this.ctx.shadowBlur = 20;
                 this.ctx.shadowColor = ribbon.color;
 
                 this.ctx.strokeStyle = ribbon.color;
-                this.ctx.lineWidth = Math.max(ribbon.width, 1.5);
+                this.ctx.lineWidth = Math.max(ribbon.width, 2);
                 this.ctx.globalAlpha = 0.9;
                 this.ctx.lineCap = 'round';
                 this.ctx.lineJoin = 'round';
