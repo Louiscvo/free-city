@@ -70,8 +70,17 @@ class FreeCityApp {
     }
 
     getNodeLabel(index) {
-        const labels = ['DORMIR', 'RÉVEIL', 'TRAVAIL', 'DÉJEUNER', 'RENDEZ-VOUS', 'CAFÉ', 'MAISON', 'DÉTENTE',
-                       'LOISIR', 'DÎNER', 'MARCHE', 'LECTURE', 'JOUER', 'ÉTUDE', 'SPORT', 'REPOS'];
+        // Routine cohérente d'un PNJ de banque (comme Free Guy)
+        const labels = [
+            'DORMIR',      // 1. Nuit - sommeil
+            'RÉVEIL',      // 2. Matin - se réveille
+            'CAFÉ',        // 3. Matin - café + petit-déj
+            'BANQUE',      // 4. Travail - employé de banque
+            'DÉJEUNER',    // 5. Midi - pause repas
+            'BANQUE',      // 6. Après-midi - retour travail
+            'RENTRER',     // 7. Soir - rentrer chez soi
+            'DÎNER'        // 8. Soir - dîner et dodo
+        ];
         return labels[index % labels.length];
     }
 
