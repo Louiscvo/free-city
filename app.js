@@ -114,8 +114,10 @@ class FreeCityApp {
 
     createRibbon(node, index) {
         const colors = ['#ff006e', '#ffd60a', '#00d9ff', '#ff5733', '#a855f7'];
-        // Explosion radiale complète - 360 degrés
-        const angle = Math.random() * Math.PI * 2; // Direction aléatoire complète
+        // Direction vers la droite avec légère variation verticale
+        const baseAngle = 0; // 0 = droite
+        const spread = Math.PI / 6; // ±30 degrés de variation
+        const angle = baseAngle + (Math.random() - 0.5) * spread;
 
         this.ribbons.push({
             startX: node.x,
