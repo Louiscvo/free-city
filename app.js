@@ -40,12 +40,9 @@ class FreeCityApp {
         document.addEventListener('keydown', (e) => {
             if (e.key === ' ') {
                 e.preventDefault();
-                console.log('SPACE pressed, isEvolved:', this.isEvolved);
                 if (this.isEvolved) {
-                    console.log('Calling reset()');
                     this.reset();
                 } else {
-                    console.log('Calling evolve()');
                     this.evolve();
                 }
             }
@@ -70,7 +67,6 @@ class FreeCityApp {
             });
         }
 
-        document.getElementById('nodes-stat').textContent = this.nodeCount;
     }
 
     getNodeLabel(index) {
@@ -81,7 +77,6 @@ class FreeCityApp {
 
     evolve() {
         this.isEvolved = true;
-        document.getElementById('state').textContent = 'ÉVOLUTION !';
 
         // Create ribbons only from the rightmost node
         const rightmostNode = this.nodes.reduce((prev, current) => {
@@ -131,7 +126,6 @@ class FreeCityApp {
     }
 
     reset() {
-        console.log('Reset called - clearing ribbons:', this.ribbons.length);
         this.isEvolved = false;
         this.ribbons = [];
         this.lightPosition = 0;
@@ -139,8 +133,6 @@ class FreeCityApp {
         this.offsetX = 0;
         this.offsetY = 0;
         this.createNodes();
-        document.getElementById('state').textContent = 'Boucle normale';
-        console.log('Reset complete - isEvolved:', this.isEvolved);
     }
 
     drawNodes() {
@@ -197,7 +189,6 @@ class FreeCityApp {
         this.ctx.arc(x, y, 8, 0, Math.PI * 2);
         this.ctx.fill();
 
-        document.getElementById('position').textContent = `${currentIndex + 1}/${this.nodeCount}`;
     }
 
     drawRibbons() {
@@ -284,7 +275,6 @@ class FreeCityApp {
             }
         });
 
-        document.getElementById('ribbons').textContent = this.ribbons.length;
     }
 
     easeInOutCubic(t) {
@@ -298,7 +288,6 @@ class FreeCityApp {
 
         if (delta >= 1000) {
             this.fps = Math.round((this.frameCount * 1000) / delta);
-            document.getElementById('fps').textContent = this.fps;
             this.frameCount = 0;
             this.lastTime = now;
         }
