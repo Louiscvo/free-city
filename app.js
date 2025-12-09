@@ -77,7 +77,6 @@ class FreeCityApp {
     }
 
     evolve() {
-        if (this.isEvolved) return;
         this.isEvolved = true;
         document.getElementById('state').textContent = 'ÉVOLUTION !';
 
