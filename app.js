@@ -99,7 +99,7 @@ class FreeCityApp {
         const colors = ['#ff006e', '#ffd60a', '#00d9ff', '#ff5733', '#a855f7'];
 
         // Arborescence: alterne entre ligne droite et courbe
-        const verticalOffset = yOffset || (index - this.ribbonCount / 2) * 50;
+        const verticalOffset = yOffset || (index - this.ribbonCount / 2) * 60;
 
         this.ribbons.push({
             startX: node.x,
@@ -107,15 +107,15 @@ class FreeCityApp {
             currentY: node.y,
             targetY: node.y + verticalOffset,
             angle: 0,
-            speed: 3, // Vitesse de croissance
+            speed: 4, // Plus rapide pour effet spectaculaire
             color: colors[depth % colors.length],
             points: [{x: node.x, y: node.y}],
-            width: 7 - (depth * 0.5), // Encore plus gros
+            width: 9 - (depth * 0.6), // ENCORE plus gros
             life: 999, // Ne disparaît jamais
             phase: 'curve',
             distance: 0,
             depth: depth,
-            branchTimer: 200 + Math.random() * 200, // Beaucoup plus lent entre générations
+            branchTimer: 200 + Math.random() * 200,
             hasBranched: false
         });
     }
@@ -221,10 +221,10 @@ class FreeCityApp {
                 if (ribbon.branchTimer <= 0 && !ribbon.hasBranched && ribbon.depth < 2) {
                     ribbon.hasBranched = true;
 
-                    // Créer 2-4 nouvelles branches
-                    const numBranches = 2 + Math.floor(Math.random() * 3);
+                    // Créer 3-5 nouvelles branches pour plus de densité
+                    const numBranches = 3 + Math.floor(Math.random() * 3);
                     for (let i = 0; i < numBranches; i++) {
-                        const branchOffset = (i - numBranches / 2) * 70;
+                        const branchOffset = (i - numBranches / 2) * 80;
                         const branchNode = {
                             x: lastPoint.x,
                             y: ribbon.currentY
@@ -236,25 +236,36 @@ class FreeCityApp {
 
             ribbon.points.push({x: newX, y: newY});
 
-            // Draw ribbon avec effet de glow
+            // Draw ribbon avec effet de glow MASSIF
             if (ribbon.points.length > 1) {
-                // Glow externe encore plus fort pour effet spectaculaire
-                this.ctx.shadowBlur = 25;
+                // Double glow pour effet ultra spectaculaire
+                // Glow externe large
+                this.ctx.shadowBlur = 40;
                 this.ctx.shadowColor = ribbon.color;
 
                 this.ctx.strokeStyle = ribbon.color;
-                this.ctx.lineWidth = Math.max(ribbon.width, 3);
-                this.ctx.globalAlpha = 0.9;
+                this.ctx.lineWidth = Math.max(ribbon.width, 4);
+                this.ctx.globalAlpha = 0.6;
                 this.ctx.lineCap = 'round';
                 this.ctx.lineJoin = 'round';
 
                 this.ctx.beginPath();
                 this.ctx.moveTo(ribbon.points[0].x, ribbon.points[0].y);
-
                 for (let i = 1; i < ribbon.points.length; i++) {
                     this.ctx.lineTo(ribbon.points[i].x, ribbon.points[i].y);
                 }
+                this.ctx.stroke();
 
+                // Glow interne concentré
+                this.ctx.shadowBlur = 15;
+                this.ctx.lineWidth = Math.max(ribbon.width * 0.7, 3);
+                this.ctx.globalAlpha = 1;
+
+                this.ctx.beginPath();
+                this.ctx.moveTo(ribbon.points[0].x, ribbon.points[0].y);
+                for (let i = 1; i < ribbon.points.length; i++) {
+                    this.ctx.lineTo(ribbon.points[i].x, ribbon.points[i].y);
+                }
                 this.ctx.stroke();
 
                 // Reset shadow
