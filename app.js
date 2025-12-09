@@ -217,21 +217,8 @@ class FreeCityApp {
                 newY = ribbon.targetY;
                 ribbon.currentY = ribbon.targetY;
 
-                // Créer des branches (subdivisions)
-                if (ribbon.branchTimer <= 0 && !ribbon.hasBranched && ribbon.depth < 4) {
-                    ribbon.hasBranched = true;
-
-                    // Créer 2-4 nouvelles branches pour plus de complexité
-                    const numBranches = 2 + Math.floor(Math.random() * 3);
-                    for (let i = 0; i < numBranches; i++) {
-                        const branchOffset = (i - numBranches / 2) * 70;
-                        const branchNode = {
-                            x: lastPoint.x,
-                            y: ribbon.currentY
-                        };
-                        this.createRibbon(branchNode, i, ribbon.depth + 1, branchOffset);
-                    }
-                }
+                // Pas de subdivision - on garde juste les rubans orange (depth 0)
+                // Plus de branches = plus simple et plus lisible
             }
 
             ribbon.points.push({x: newX, y: newY});
@@ -286,21 +273,28 @@ class FreeCityApp {
     animate() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Dezoom progressif quand l'arborescence grandit
+        // Suivi de caméra amélioré
         if (this.isEvolved && this.ribbons.length > 0) {
-            const maxX = Math.max(...this.ribbons.flatMap(r => r.points.map(p => p.x)));
-            const maxY = Math.max(...this.ribbons.flatMap(r => r.points.map(p => p.y)));
-            const minY = Math.min(...this.ribbons.flatMap(r => r.points.map(p => p.y)));
+            const allPoints = this.ribbons.flatMap(r => r.points);
+            const maxX = Math.max(...allPoints.map(p => p.x));
+            const minX = Math.min(...allPoints.map(p => p.x));
+            const maxY = Math.max(...allPoints.map(p => p.y));
+            const minY = Math.min(...allPoints.map(p => p.y));
+
+            const width = maxX - minX + 400;
+            const height = maxY - minY + 400;
+            const centerX = (maxX + minX) / 2;
+            const centerY = (maxY + minY) / 2;
 
             const targetZoom = Math.min(
-                this.canvas.width / (maxX - this.centerX + 200),
-                this.canvas.height / (maxY - minY + 200),
+                this.canvas.width / width,
+                this.canvas.height / height,
                 1
             );
-            this.zoom += (targetZoom - this.zoom) * 0.01; // Dezoom encore plus lent
+            this.zoom += (targetZoom - this.zoom) * 0.05;
 
-            this.offsetX += ((this.canvas.width / 2 - maxX * this.zoom) - this.offsetX) * 0.01;
-            this.offsetY += ((this.canvas.height / 2 - (maxY + minY) / 2 * this.zoom) - this.offsetY) * 0.01;
+            this.offsetX += ((this.canvas.width / 2 - centerX * this.zoom) - this.offsetX) * 0.05;
+            this.offsetY += ((this.canvas.height / 2 - centerY * this.zoom) - this.offsetY) * 0.05;
         }
 
         // Appliquer la transformation
