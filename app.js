@@ -217,8 +217,21 @@ class FreeCityApp {
                 newY = ribbon.targetY;
                 ribbon.currentY = ribbon.targetY;
 
-                // Pas de subdivision - on garde juste les rubans orange (depth 0)
-                // Plus de branches = plus simple et plus lisible
+                // Créer des branches jusqu'à la 3ème génération
+                if (ribbon.branchTimer <= 0 && !ribbon.hasBranched && ribbon.depth < 2) {
+                    ribbon.hasBranched = true;
+
+                    // Créer 2-4 nouvelles branches
+                    const numBranches = 2 + Math.floor(Math.random() * 3);
+                    for (let i = 0; i < numBranches; i++) {
+                        const branchOffset = (i - numBranches / 2) * 70;
+                        const branchNode = {
+                            x: lastPoint.x,
+                            y: ribbon.currentY
+                        };
+                        this.createRibbon(branchNode, i, ribbon.depth + 1, branchOffset);
+                    }
+                }
             }
 
             ribbon.points.push({x: newX, y: newY});
