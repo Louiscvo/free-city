@@ -114,22 +114,23 @@ class FreeCityApp {
 
     createRibbon(node, index) {
         const colors = ['#ff006e', '#ffd60a', '#00d9ff', '#ff5733', '#a855f7'];
-        // Direction vers la droite avec légère variation verticale
-        const baseAngle = 0; // 0 = droite
-        const spread = Math.PI / 6; // ±30 degrés de variation
-        const angle = baseAngle + (Math.random() - 0.5) * spread;
+
+        // Arborescence: alterne entre ligne droite et courbe
+        const verticalOffset = (index - this.ribbonCount / 2) * 40; // Étalement vertical
 
         this.ribbons.push({
             startX: node.x,
             startY: node.y,
-            angle: angle,
-            speed: 2 + Math.random() * 2,
+            targetY: node.y + verticalOffset, // Position verticale cible
+            angle: 0, // Toujours vers la droite
+            speed: 3,
             color: colors[index % colors.length],
             points: [{x: node.x, y: node.y}],
-            maxPoints: 50,
+            maxPoints: 100,
             width: 3,
             life: 1,
-            wave: Math.random() * Math.PI * 2
+            phase: 'curve', // 'curve' puis 'straight'
+            distance: 0
         });
     }
 
@@ -203,12 +204,27 @@ class FreeCityApp {
 
         this.ribbons.forEach(ribbon => {
             const lastPoint = ribbon.points[ribbon.points.length - 1];
-            const waveOffset = Math.sin(this.time * 0.05 + ribbon.wave) * 20;
-            const perpX = -Math.sin(ribbon.angle);
-            const perpY = Math.cos(ribbon.angle);
+            ribbon.distance += ribbon.speed;
 
-            const newX = lastPoint.x + Math.cos(ribbon.angle) * ribbon.speed + perpX * waveOffset;
-            const newY = lastPoint.y + Math.sin(ribbon.angle) * ribbon.speed + perpY * waveOffset;
+            let newX, newY;
+
+            if (ribbon.phase === 'curve') {
+                // Phase courbe: aller vers targetY avec une courbe
+                const progress = Math.min(ribbon.distance / 100, 1);
+                const curveY = ribbon.startY + (ribbon.targetY - ribbon.startY) * this.easeInOutCubic(progress);
+
+                newX = lastPoint.x + ribbon.speed;
+                newY = curveY;
+
+                if (progress >= 1) {
+                    ribbon.phase = 'straight';
+                    ribbon.distance = 0;
+                }
+            } else {
+                // Phase droite: ligne droite horizontale
+                newX = lastPoint.x + ribbon.speed;
+                newY = ribbon.targetY;
+            }
 
             ribbon.points.push({x: newX, y: newY});
 
@@ -216,7 +232,7 @@ class FreeCityApp {
                 ribbon.points.shift();
             }
 
-            ribbon.life -= 0.005;
+            ribbon.life -= 0.003;
 
             // Draw ribbon
             if (ribbon.points.length > 1) {
@@ -239,6 +255,10 @@ class FreeCityApp {
         });
 
         document.getElementById('ribbons').textContent = this.ribbons.length;
+    }
+
+    easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
     updateFPS() {
