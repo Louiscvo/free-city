@@ -30,7 +30,7 @@ Reproduction fidèle de l'effet visuel iconique montrant l'évolution d'une IA a
 
 ```bash
 # 1. Cloner le repo
-git clone https://github.com/votre-username/FreeCityAI.git
+git clone https://github.com/louischavouet/FreeCityAI.git
 
 # 2. Dans Unity
 # Copier Scripts/ vers Assets/FreeCityAI/Scripts/
@@ -52,7 +52,7 @@ GameObject → Free City AI → Setup Complete Scene
 | [EXAMPLES.md](EXAMPLES.md) | 15+ exemples pratiques |
 | [STRUCTURE.txt](STRUCTURE.txt) | Architecture technique |
 
-📚 [Documentation complète →](https://votre-username.github.io/FreeCityAI/)
+📚 [Documentation complète →](https://louischavouet.github.io/FreeCityAI/)
 
 ## 🎬 Résultat Visuel
 
@@ -176,18 +176,18 @@ Les contributions sont les bienvenues !
 
 ## 🔗 Liens
 
-- 🌐 [Site Web](https://votre-username.github.io/FreeCityAI/)
-- 📚 [Documentation](https://votre-username.github.io/FreeCityAI/)
-- 🐛 [Issues](https://github.com/votre-username/FreeCityAI/issues)
-- 💬 [Discussions](https://github.com/votre-username/FreeCityAI/discussions)
+- 🌐 [Site Web](https://louischavouet.github.io/FreeCityAI/)
+- 📚 [Documentation](https://louischavouet.github.io/FreeCityAI/)
+- 🐛 [Issues](https://github.com/louischavouet/FreeCityAI/issues)
+- 💬 [Discussions](https://github.com/louischavouet/FreeCityAI/discussions)
 
 ## 📞 Support
 
 Besoin d'aide ?
 1. Consultez [START_HERE.md](START_HERE.md)
 2. Lisez [QUICKSTART.md](QUICKSTART.md)
-3. Voir les [Issues](https://github.com/votre-username/FreeCityAI/issues)
-4. Rejoignez les [Discussions](https://github.com/votre-username/FreeCityAI/discussions)
+3. Voir les [Issues](https://github.com/louischavouet/FreeCityAI/issues)
+4. Rejoignez les [Discussions](https://github.com/louischavouet/FreeCityAI/discussions)
 
 ## 📈 Roadmap
 
@@ -212,6 +212,6 @@ Voir [VERSION.md](VERSION.md) pour détails complets.
 
 Créé avec ❤️ pour la communauté Unity
 
-[Documentation](https://votre-username.github.io/FreeCityAI/) • [Télécharger](https://github.com/votre-username/FreeCityAI/releases) • [Exemples](EXAMPLES.md)
+[Documentation](https://louischavouet.github.io/FreeCityAI/) • [Télécharger](https://github.com/louischavouet/FreeCityAI/releases) • [Exemples](EXAMPLES.md)
 
 </div>
