@@ -1,0 +1,143 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║            📋 COMMANDES À COPIER-COLLER POUR GITHUB 📋                     ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+🎯 OPTION 1 : SCRIPT AUTOMATIQUE (RECOMMANDÉ)
+═══════════════════════════════════════════════════════════════════════════
+
+Ouvrez le terminal et exécutez:
+
+cd /Users/louischavouet/Documents/FreeCityAI
+./quick-deploy.sh
+
+Le script vous demandera votre username GitHub et ouvrira automatiquement
+les pages nécessaires dans votre navigateur !
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎯 OPTION 2 : COMMANDES MANUELLES
+═══════════════════════════════════════════════════════════════════════════
+
+Étape 1 : Créer le Repository sur GitHub
+─────────────────────────────────────────
+
+1. Allez sur https://github.com/new
+
+2. Remplissez:
+   - Repository name: FreeCityAI
+   - Public ✓
+   - Ne cochez RIEN d'autre
+
+3. Cliquez "Create repository"
+
+
+Étape 2 : Mettre à Jour les Liens (IMPORTANT!)
+───────────────────────────────────────────────
+
+Remplacez "VOTRE-USERNAME" par votre vrai username GitHub:
+
+cd /Users/louischavouet/Documents/FreeCityAI
+
+# macOS/Linux:
+sed -i '' 's/votre-username/VOTRE-USERNAME/g' index.html
+sed -i '' 's/votre-username/VOTRE-USERNAME/g' README_GITHUB.md
+
+# Configurer README
+mv README.md README_LOCAL.md
+cp README_GITHUB.md README.md
+
+
+Étape 3 : Pousser vers GitHub
+──────────────────────────────
+
+cd /Users/louischavouet/Documents/FreeCityAI
+
+git add .
+git commit -m "🚀 Update links for deployment"
+
+git remote add origin https://github.com/VOTRE-USERNAME/FreeCityAI.git
+git branch -M main
+git push -u origin main
+
+
+Étape 4 : Activer GitHub Pages
+───────────────────────────────
+
+1. Allez sur: https://github.com/VOTRE-USERNAME/FreeCityAI/settings/pages
+
+2. Sous "Source":
+   - Branch: main
+   - Folder: / (root)
+
+3. Cliquez "Save"
+
+4. Attendez 1-2 minutes
+
+
+Étape 5 : Vérifier
+──────────────────
+
+Votre site sera disponible sur:
+https://VOTRE-USERNAME.github.io/FreeCityAI/
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎯 OPTION 3 : SCRIPT COMPLET AUTOMATISÉ
+═══════════════════════════════════════════════════════════════════════════
+
+cd /Users/louischavouet/Documents/FreeCityAI
+./deploy.sh VOTRE-USERNAME
+
+Ce script fait TOUT automatiquement et vous guide à chaque étape !
+
+═══════════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST
+═══════════════════════════════════════════════════════════════════════════
+
+□ Repository créé sur GitHub
+□ Liens mis à jour (votre-username → VOTRE-USERNAME)
+□ README configuré
+□ Code commité
+□ Remote configuré
+□ Code poussé (git push)
+□ GitHub Pages activé
+□ Site vérifié (https://VOTRE-USERNAME.github.io/FreeCityAI/)
+
+═══════════════════════════════════════════════════════════════════════════
+
+🐛 PROBLÈMES COURANTS
+═══════════════════════════════════════════════════════════════════════════
+
+Erreur "remote origin already exists":
+  git remote remove origin
+  git remote add origin https://github.com/VOTRE-USERNAME/FreeCityAI.git
+
+Erreur d'authentification:
+  - Utilisez un Personal Access Token (PAT)
+  - GitHub Settings → Developer settings → Personal access tokens
+  - Créez un token avec scope "repo"
+  - Utilisez le token comme mot de passe
+
+Site ne s'affiche pas:
+  - Attendez 2-3 minutes
+  - Videz le cache (Ctrl+F5)
+  - Vérifiez Settings → Pages
+
+═══════════════════════════════════════════════════════════════════════════
+
+📞 AIDE
+═══════════════════════════════════════════════════════════════════════════
+
+Voir aussi:
+  • GITHUB_SETUP.md   - Guide complet détaillé
+  • deploy.sh         - Script automatique complet
+  • quick-deploy.sh   - Script ultra-rapide
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎉 Une fois en ligne, votre site sera accessible au monde entier ! 🎉
+
+═══════════════════════════════════════════════════════════════════════════
