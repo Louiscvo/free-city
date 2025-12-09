@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free City AI - Demo Interactive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+            background: radial-gradient(circle at 50% 50%, #1a1f3a 0%, #0a0e27 100%);
+        }
+
+        #controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(26, 31, 58, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            z-index: 100;
+        }
+
+        #controls h2 {
+            color: #00d9ff;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #00d9ff, #0099cc);
+            color: #0a0e27;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .slider-container {
+            margin: 10px 0;
+        }
+
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00d9ff;
+            font-size: 12px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        input[type="color"] {
+            width: 100%;
+            height: 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(26, 31, 58, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            font-size: 12px;
+            max-width: 300px;
+        }
+
+        #info h3 {
+            color: #00d9ff;
+            margin-bottom: 10px;
+        }
+
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+
+        .stat-label {
+            color: #a0a8c5;
+        }
+
+        .stat-value {
+            color: #00d9ff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="controls">
+        <h2>🎮 Contrôles</h2>
+        <button id="evolve-btn">🚀 Déclencher Évolution</button>
+        <button id="reset-btn">🔄 Reset</button>
+
+        <div class="slider-container">
+            <label>Nombre de nœuds: <span id="node-count">8</span></label>
+            <input type="range" id="node-slider" min="4" max="16" value="8">
+        </div>
+
+        <div class="slider-container">
+            <label>Vitesse lumière: <span id="speed-value">1</span></label>
+            <input type="range" id="speed-slider" min="0.1" max="3" step="0.1" value="1">
+        </div>
+
+        <div class="slider-container">
+            <label>Rubans par nœud: <span id="ribbon-count">5</span></label>
+            <input type="range" id="ribbon-slider" min="1" max="10" value="5">
+        </div>
+
+        <div class="slider-container">
+            <label>Couleur lumière:</label>
+            <input type="color" id="light-color" value="#00ffff">
+        </div>
+    </div>
+
+    <div id="info">
+        <h3>📊 Stats</h3>
+        <div class="stat">
+            <span class="stat-label">État:</span>
+            <span class="stat-value" id="state">Boucle normale</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Nœuds:</span>
+            <span class="stat-value" id="nodes-stat">8</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Position:</span>
+            <span class="stat-value" id="position">0/8</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">Rubans actifs:</span>
+            <span class="stat-value" id="ribbons">0</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label">FPS:</span>
+            <span class="stat-value" id="fps">60</span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
